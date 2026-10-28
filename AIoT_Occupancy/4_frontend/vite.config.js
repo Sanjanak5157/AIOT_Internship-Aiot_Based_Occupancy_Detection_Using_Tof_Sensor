@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/YOUR-REPO-NAME/',
+  base: 'https://github.com/Sanjanak5157/Aiot-Internship---AIOT_BASED_OCCUPANCY_DETECTION_USING_TOF_SENSOR.git',
   plugins: [react()],
   server: {
     port: 5173,
