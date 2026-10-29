@@ -1,10 +1,8 @@
-
-name: Deploy React Frontend to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -13,12 +11,15 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
+  group: pages
   cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
@@ -29,23 +30,23 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: 4_frontend/package-lock.json
+          cache-dependency-path: AIoT_Occupancy/4_frontend/package-lock.json
 
       - name: Install dependencies
-        working-directory: 4_frontend
+        working-directory: AIoT_Occupancy/4_frontend
         run: npm ci
 
       - name: Build React frontend
-        working-directory: 4_frontend
+        working-directory: AIoT_Occupancy/4_frontend
         run: npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload build files
-        uses: actions/upload-pages-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: 4_frontend/dist
+          path: AIoT_Occupancy/4_frontend/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
